@@ -1,2 +1,6 @@
-# AzureMarketplaceVmImagePacker
-Produce Azure VM Images for Publishing to the Azure Marketplace using Packer
+# AzureMarketplaceVmImageCreator
+
+Example repository that uses GitHub Actions to produce Azure VM images for publishing to the Azure Marketplace using:
+
+- Hashicorp Packer
+- Azure Image Builder
