@@ -53,9 +53,9 @@ jobs:
       SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
       SOURCE_IMAGE_OFFER: "WindowsServer"
       SOURCE_IMAGE_SKU: "2016-Datacenter"
-      OS_TYPE: Windows
-      OFFER: "WindowsServerVsCode"
-      SKU: "2016-Datacenter"
+      DESTINATION_OS_TYPE: Windows
+      DESTINATION_OFFER: "WindowsServerVsCode"
+      DESTINATION_SKU: "2016-Datacenter"
 
     steps:
       - name: Checkout Repository
@@ -83,7 +83,7 @@ jobs:
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$DESTINATION_OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$DESTINATION_OFFER" sku="$DESTINATION_SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master
@@ -105,9 +105,9 @@ jobs:
       SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
       SOURCE_IMAGE_OFFER: "WindowsServer"
       SOURCE_IMAGE_SKU: "2019-Datacenter"
-      OS_TYPE: Windows
-      OFFER: "WindowsServerVsCode"
-      SKU: "2019-Datacenter"
+      DESTINATION_OS_TYPE: Windows
+      DESTINATION_OFFER: "WindowsServerVsCode"
+      DESTINATION_SKU: "2019-Datacenter"
 
     steps:
       - name: Checkout Repository
@@ -135,7 +135,7 @@ jobs:
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$DESTINATION_OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$DESTINATION_OFFER" sku="$DESTINATION_SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master
@@ -157,9 +157,9 @@ jobs:
       SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsDesktop"
       SOURCE_IMAGE_OFFER: "Windows-10"
       SOURCE_IMAGE_SKU: "20h1-ent"
-      OS_TYPE: Windows
-      OFFER: "Windows10VsCode"
-      SKU: "20h1-ent"
+      DESTINATION_OS_TYPE: Windows
+      DESTINATION_OFFER: "Windows10VsCode"
+      DESTINATION_SKU: "20h1-ent"
 
     steps:
       - name: Checkout Repository
@@ -187,7 +187,7 @@ jobs:
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$DESTINATION_OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$DESTINATION_OFFER" sku="$DESTINATION_SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master

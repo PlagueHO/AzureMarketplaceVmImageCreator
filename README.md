@@ -39,12 +39,12 @@ The workflows contains a number of variables at both the workflow and the job le
 - **PACKER_FILE**: The path to the packer file to use for building this image definition.
 - **DESTINATION_IMAGE_NAME**: The image definition name to create. Must not contain spaces or symbols.
 - **DESTINATION_IMAGE_DESCRIPTION**: The image definition description to create.
+- **DESTINATION_OS_TYPE**: The OS of the image definition to create. Windows or Linux.
+- **DESTINATION_SKU**: The sku for the image definition to create.
+- **DESTINATION_OFFER**: The offer for the image definition to create.
 - **SOURCE_IMAGE_PUBLISHER**: The publisher of the source image.
 - **SOURCE_IMAGE_OFFER**: The offer from the publisher of the source image.
 - **SOURCE_IMAGE_SKU**: The SKU for the source image.
-- **OS_TYPE**: The OS of the image definition to create. Windows or Linux.
-- **SKU**: The sku for the image definition to create.
-- **OFFER**: The offer for the image definition to create.
 
 ## Dependencies
 
