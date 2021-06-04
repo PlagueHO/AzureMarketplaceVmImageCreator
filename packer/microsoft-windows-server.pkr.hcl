@@ -10,6 +10,15 @@ variable "azure_client_id" {
 variable "azure_client_secret" {
   type = string
 }
+variable "location" {
+  type = string
+}
+variable "destination_resource_group_name" {
+  type = string
+}
+variable "destination_image_gallery_name" {
+  type = string
+}
 variable "image_name" {
   type = string
 }
@@ -21,17 +30,12 @@ variables {
    image_offer = "WindowsServer"
    image_publisher = "MicrosoftWindowsServer"
    image_sku = "2016-Datacenter"
-   destination_resource_group_name = "dsr-images-rg"
-   destination_image_gallery_name = "dsrimagegallery"
    vm_size = "Standard_D2_v2"
-   location = "East US"
-   destination_image_gallery_region = "East US"
 }
 
 source "azure-arm" "microsoft-windows-server" {
   azure_tags = {
-    dept = "Engineering"
-    task = "Image deployment"
+    dept = "Demonstration"
   }
   client_id                           = "${var.azure_client_id}"
   client_secret                       = "${var.azure_client_secret}"
@@ -47,7 +51,7 @@ source "azure-arm" "microsoft-windows-server" {
       gallery_name = "${var.destination_image_gallery_name}"
       image_name = "${var.image_name}"
       image_version = "${var.image_version}"
-      replication_regions = [ "${var.destination_image_gallery_region}" ]
+      replication_regions = [ "${var.location}" ]
   }
   managed_image_name                  = "${var.image_name}"
   managed_image_resource_group_name   = "${var.destination_resource_group_name}"
