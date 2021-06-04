@@ -30,18 +30,18 @@ The workflows contains a number of variables at both the workflow and the job le
 - **LOCATION**: The Azure Location to build the images in and to deploy the shared image gallery resource.
 - **DESTINATION_RESOURCE_GROUP_NAME**: The name of the resource group to put all the resources/images into.
 - **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
-- **PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
-- **IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version to ensure it is unique.
+- **DESTINATION_PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
+- **DESTINATION_IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version to ensure it is unique.
 - **AZURE***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
 
 ### Job
 
 - **PACKER_FILE**: The path to the packer file to use for building this image definition.
-- **IMAGE_NAME**: The image definition name to create. Must not contain spaces or symbols.
-- **IMAGE_DESCRIPTION**: The image definition description to create.
-- **IMAGE_PUBLISHER**: The publisher of the source image.
-- **IMAGE_OFFER**: The offer from the publisher of the source image.
-- **IMAGE_SKU**: The SKU for the source image.
+- **DESTINATION_IMAGE_NAME**: The image definition name to create. Must not contain spaces or symbols.
+- **DESTINATION_IMAGE_DESCRIPTION**: The image definition description to create.
+- **SOURCE_IMAGE_PUBLISHER**: The publisher of the source image.
+- **SOURCE_IMAGE_OFFER**: The offer from the publisher of the source image.
+- **SOURCE_IMAGE_SKU**: The SKU for the source image.
 - **OS_TYPE**: The OS of the image definition to create. Windows or Linux.
 - **SKU**: The sku for the image definition to create.
 - **OFFER**: The offer for the image definition to create.

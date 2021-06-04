@@ -9,8 +9,8 @@ env:
   LOCATION: EastUS
   DESTINATION_RESOURCE_GROUP_NAME: dsr-images-rg
   DESTINATION_IMAGE_GALLERY_NAME: dsrimagegallery
-  PUBLISHER: Daniel.Scott-Raynsford
-  IMAGE_VERSION: 1.0.${{ github.run_number }}
+  DESTINATION_PUBLISHER: Daniel.Scott-Raynsford
+  DESTINATION_IMAGE_VERSION: 1.0.${{ github.run_number }}
   AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
   AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
   AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
@@ -48,11 +48,11 @@ jobs:
     name: Build Microsoft Windows Server 2016-Datacenter with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
-      IMAGE_DESCRIPTION: "Windows Server 2016 Datacenter with VS Code"
-      IMAGE_PUBLISHER: "MicrosoftWindowsServer"
-      IMAGE_OFFER: "WindowsServer"
-      IMAGE_SKU: "2016-Datacenter"
+      DESTINATION_IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
+      DESTINATION_IMAGE_DESCRIPTION: "Windows Server 2016 Datacenter with VS Code"
+      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
+      SOURCE_IMAGE_OFFER: "WindowsServer"
+      SOURCE_IMAGE_SKU: "2016-Datacenter"
       OS_TYPE: Windows
       OFFER: "WindowsServerVsCode"
       SKU: "2016-Datacenter"
@@ -80,16 +80,16 @@ jobs:
           inlineScript: |
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
-              --name "${IMAGE_NAME}-${date}" \
+              --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$IMAGE_NAME" osType="$OS_TYPE" imageDescription="$IMAGE_DESCRIPTION" publisher="$PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} -var image_publisher=${{ env.IMAGE_PUBLISHER }} -var image_offer=${{ env.IMAGE_OFFER }} -var image_sku=${{ env.IMAGE_SKU }}"
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var destination_image_name=${{ env.DESTINATION_IMAGE_NAME }} -var destination_image_version=${{ env.DESTINATION_IMAGE_VERSION }} -var source_image_publisher=${{ env.SOURCE_IMAGE_PUBLISHER }} -var source_image_offer=${{ env.SOURCE_IMAGE_OFFER }} -var source_image_sku=${{ env.SOURCE_IMAGE_SKU }}"
           target: ${{ env.PACKER_FILE }}
         env:
           PACKER_LOG: 1
@@ -100,11 +100,11 @@ jobs:
     name: Build Microsoft Windows Server 2019-Datacenter with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      IMAGE_NAME: MicrosoftWindowsServer2019DatacenterVsCode
-      IMAGE_DESCRIPTION: "Windows Server 2019 Datacenter with VS Code"
-      IMAGE_PUBLISHER: "MicrosoftWindowsServer"
-      IMAGE_OFFER: "WindowsServer"
-      IMAGE_SKU: "2019-Datacenter"
+      DESTINATION_IMAGE_NAME: MicrosoftWindowsServer2019DatacenterVsCode
+      DESTINATION_IMAGE_DESCRIPTION: "Windows Server 2019 Datacenter with VS Code"
+      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
+      SOURCE_IMAGE_OFFER: "WindowsServer"
+      SOURCE_IMAGE_SKU: "2019-Datacenter"
       OS_TYPE: Windows
       OFFER: "WindowsServerVsCode"
       SKU: "2019-Datacenter"
@@ -132,16 +132,16 @@ jobs:
           inlineScript: |
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
-              --name "${IMAGE_NAME}-${date}" \
+              --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$IMAGE_NAME" osType="$OS_TYPE" imageDescription="$IMAGE_DESCRIPTION" publisher="$PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} -var image_publisher=${{ env.IMAGE_PUBLISHER }} -var image_offer=${{ env.IMAGE_OFFER }} -var image_sku=${{ env.IMAGE_SKU }}"
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var destination_image_name=${{ env.DESTINATION_IMAGE_NAME }} -var destination_image_version=${{ env.DESTINATION_IMAGE_VERSION }} -var source_image_publisher=${{ env.SOURCE_IMAGE_PUBLISHER }} -var source_image_offer=${{ env.SOURCE_IMAGE_OFFER }} -var source_image_sku=${{ env.SOURCE_IMAGE_SKU }}"
           target: ${{ env.PACKER_FILE }}
         env:
           PACKER_LOG: 1
@@ -152,11 +152,11 @@ jobs:
     name: Build Microsoft Windows 10 20h1-ent with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      IMAGE_NAME: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
-      IMAGE_DESCRIPTION: "Windows 10 20h1-ent with VS Code"
-      IMAGE_PUBLISHER: "MicrosoftWindowsDesktop"
-      IMAGE_OFFER: "Windows-10"
-      IMAGE_SKU: "20h1-ent"
+      DESTINATION_IMAGE_NAME: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
+      DESTINATION_IMAGE_DESCRIPTION: "Windows 10 20h1-ent with VS Code"
+      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsDesktop"
+      SOURCE_IMAGE_OFFER: "Windows-10"
+      SOURCE_IMAGE_SKU: "20h1-ent"
       OS_TYPE: Windows
       OFFER: "Windows10VsCode"
       SKU: "20h1-ent"
@@ -184,16 +184,16 @@ jobs:
           inlineScript: |
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
-              --name "${IMAGE_NAME}-${date}" \
+              --name "${DESTINATION_IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$IMAGE_NAME" osType="$OS_TYPE" imageDescription="$IMAGE_DESCRIPTION" publisher="$PUBLISHER" offer="$OFFER" sku="$SKU"
+              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$OFFER" sku="$SKU"
 
       - name: Build Image Definition
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} -var image_publisher=${{ env.IMAGE_PUBLISHER }} -var image_offer=${{ env.IMAGE_OFFER }} -var image_sku=${{ env.IMAGE_SKU }}"
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var destination_image_name=${{ env.DESTINATION_IMAGE_NAME }} -var destination_image_version=${{ env.DESTINATION_IMAGE_VERSION }} -var source_image_publisher=${{ env.SOURCE_IMAGE_PUBLISHER }} -var source_image_offer=${{ env.SOURCE_IMAGE_OFFER }} -var source_image_sku=${{ env.SOURCE_IMAGE_SKU }}"
           target: ${{ env.PACKER_FILE }}
         env:
           PACKER_LOG: 1
