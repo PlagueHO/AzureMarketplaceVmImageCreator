@@ -22,8 +22,8 @@ variables {
    image_offer = "WindowsServer"
    image_publisher = "MicrosoftWindowsServer"
    image_sku = "2016-Datacenter"
-   destination_resource_group_name = "dsr-imagegallery-rg"
-   destination_image_gallery_name = "dsr-images-ig"
+   destination_resource_group_name = "dsr-images-rg"
+   destination_image_gallery_name = "dsr-gallery-ig"
    vm_size = "Standard_D2_v2"
 }
 
