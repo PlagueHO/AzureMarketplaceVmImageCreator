@@ -25,6 +25,7 @@ variables {
    destination_resource_group_name = "dsr-images-rg"
    destination_image_gallery_name = "dsrimagegallery"
    vm_size = "Standard_D2_v2"
+   destination_image_gallery_region = "eastus"
 }
 
 source "azure-arm" "microsoft-window-server" {
@@ -40,13 +41,13 @@ source "azure-arm" "microsoft-window-server" {
   image_publisher                     = "${var.image_publisher}"
   image_sku                           = "${var.image_sku}"
   os_type                             = "Windows"
-
   shared_image_gallery_destination {
       subscription = "${var.azure_subscription_id}"
       resource_group = "${var.destination_resource_group_name}"
       gallery_name = "${var.destination_image_gallery_name}"
       image_name = "${var.image_name}"
       image_version = "${var.image_version}"
+      replication_regions = [ "${var.destination_image_gallery_region}" ]
   }
   managed_image_name                  = "${var.image_name}"
   managed_image_resource_group_name   = "${var.destination_resource_group_name}"
