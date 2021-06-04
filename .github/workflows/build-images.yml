@@ -16,6 +16,9 @@ jobs:
     name: Prepare Image Gallery
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -33,6 +36,7 @@ jobs:
 
   build-MicrosoftWindowsServer2016DatacenterVsCode:
     runs-on: ubuntu-latest
+    needs: prepare-image-gallery
     name: Build MicrosoftWindowsServer2016DatacenterVsCode
     env:
       PACKER_FILE: "packer/microsoft-windows-server.pkr.hcl"
