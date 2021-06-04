@@ -34,7 +34,7 @@ variables {
 }
 
 locals {
-  managed_image_name = "${concat(var.image_name, replace(var.image_version,'.','-'))}"
+  managed_image_name = "${concat(var.image_name, replace(var.image_version,".","-"))}"
 }
 
 source "azure-arm" "microsoft-windows-server" {
