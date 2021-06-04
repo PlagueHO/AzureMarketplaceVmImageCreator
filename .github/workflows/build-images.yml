@@ -41,7 +41,7 @@ jobs:
     env:
       PACKER_FILE: "packer/microsoft-windows-server.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
-      IMAGE_VERSION: 1.0.0
+      IMAGE_VERSION: 1.0.1
       AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
       AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
       AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
