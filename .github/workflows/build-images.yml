@@ -1,0 +1,32 @@
+name: build-images
+
+on:
+  push:
+
+jobs:
+  build-MicrosoftWindowsServer:
+    runs-on: ubuntu-latest
+    name: build-MicrosoftWindowsServer
+    env:
+      IMAGE_NAME: "MicrosoftWindowsServer-2016-Datacenter"
+      IMAGE_VERSION: "1.0.0"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: "-syntax-only"
+          target: packer/microsoft-windows-server.pkr.hcl
+
+      - name: Build Artifact
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: build
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=$AZURE_SUBSCRIPTION_ID -var azure_tenant_id=$AZURE_TENANT_ID -var azure_client_id=$AZURE_CLIENT_ID -var azure_client_secret=$AZURE_CLIENT_SECRET -var image_name=$IMAGE_NAME -var image_name=$IMAGE_VERSION"
+          target: packer/microsoft-windows-server.pkr.hcl
+        env:
+          PACKER_LOG: 1
