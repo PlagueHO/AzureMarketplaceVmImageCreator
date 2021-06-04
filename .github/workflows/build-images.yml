@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: build-MicrosoftWindowsServer
     env:
-      IMAGE_NAME: "MicrosoftWindowsServer2016DatacenterVsCode"
+      IMAGE_NAME: "ws"
       IMAGE_VERSION: "1.0.0"
 
     steps:
