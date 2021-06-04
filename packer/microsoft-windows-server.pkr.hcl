@@ -40,6 +40,7 @@ source "azure-arm" "microsoft-window-server" {
   image_publisher                     = "${var.image_publisher}"
   image_sku                           = "${var.image_sku}"
   os_type                             = "Windows"
+
   shared_image_gallery_destination {
       subscription = "${var.azure_subscription_id}"
       resource_group = "${var.destination_resource_group_name}"
@@ -47,6 +48,8 @@ source "azure-arm" "microsoft-window-server" {
       image_name = "${var.image_name}"
       image_version = "${var.image_version}"
   }
+  managed_image_name                  = "${var.image_name}"
+  managed_image_resource_group_name   = "${var.destination_resource_group_name}"
   subscription_id                     = "${var.azure_subscription_id}"
   tenant_id                           = "${var.azure_tenant_id}"
   vm_size                             = "${var.vm_size}"
