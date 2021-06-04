@@ -29,13 +29,13 @@ The workflows contains a number of variables at both the workflow and the job le
 - **DESTINATION_RESOURCE_GROUP_NAME**: The name of the resource group to put all the resources/images into.
 - **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
 - **PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
+- **IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version.
 - **AZURE***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
 
 ### Job
 
 - **PACKER_FILE**: The path to the packer file to use for building this image definition.
 - **IMAGE_NAME**: The image definition name. Must not contain spaces or symbols.
-- **IMAGE_VERSION**: The image definition version to create.
 - **IMAGE_DESCRIPTION**: The image definition description to create.
 - **IMAGE_PUBLISHER**: The publisher of the source image.
 - **IMAGE_OFFER**: The offer from the publisher of the source image.
