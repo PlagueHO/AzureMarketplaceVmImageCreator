@@ -44,7 +44,7 @@ jobs:
   build-MicrosoftWindowsServer2016DatacenterVsCode:
     runs-on: ubuntu-latest
     needs: prepare-image-gallery
-    name: Build MicrosoftWindowsServer 2016-Datacenter with VS Code
+    name: Build Microsoft Windows Server 2016-Datacenter with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
@@ -97,7 +97,7 @@ jobs:
   build-MicrosoftWindowsServer2019DatacenterVsCode:
     runs-on: ubuntu-latest
     needs: prepare-image-gallery
-    name: Build MicrosoftWindowsServer 2019-Datacenter with VS Code
+    name: Build Microsoft Windows Server 2019-Datacenter with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsServer2019DatacenterVsCode
@@ -150,7 +150,7 @@ jobs:
   build-MicrosoftWindows1020h1entVsCode:
     runs-on: ubuntu-latest
     needs: prepare-image-gallery
-    name: Build Microsoft 10 20h1-ent with VS Code
+    name: Build Microsoft Windows 10 20h1-ent with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
