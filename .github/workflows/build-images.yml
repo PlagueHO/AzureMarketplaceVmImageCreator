@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  LOCATION: "East US"
+  LOCATION: EastUS
   DESTINATION_RESOURCE_GROUP_NAME: dsr-images-rg
   DESTINATION_IMAGE_GALLERY_NAME: dsrimagegallery
 
