@@ -18,7 +18,6 @@ variable "image_version" {
 }
 
 variables {
-   build_resource_group_name = "dsr-packer-rg"
    image_offer = "WindowsServer"
    image_publisher = "MicrosoftWindowsServer"
    image_sku = "2016-Datacenter"
@@ -34,7 +33,6 @@ source "azure-arm" "microsoft-windows-server" {
     dept = "Engineering"
     task = "Image deployment"
   }
-  build_resource_group_name           = "${var.build_resource_group_name}"
   client_id                           = "${var.azure_client_id}"
   client_secret                       = "${var.azure_client_secret}"
   communicator                        = "winrm"
