@@ -25,11 +25,17 @@ variable "image_name" {
 variable "image_version" {
   type = string
 }
+variable "image_publisher" {
+  type = string
+}
+variable "image_offer" {
+   type = string
+}
+variable "image_sku" {
+  type = string
+}
 
 variables {
-   image_offer = "WindowsServer"
-   image_publisher = "MicrosoftWindowsServer"
-   image_sku = "2016-Datacenter"
    vm_size = "Standard_D2_v2"
 }
 
