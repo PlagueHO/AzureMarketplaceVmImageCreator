@@ -85,7 +85,7 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var DESTINATION_RESOURCE_GROUP_NAME=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} -var image_publisher=${{ env.IMAGE_PUBLISHER }} -var image_offer=${{ env.IMAGE_OFFER }} -var image_sku=${{ env.IMAGE_SKU }}"
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} -var image_publisher=${{ env.IMAGE_PUBLISHER }} -var image_offer=${{ env.IMAGE_OFFER }} -var image_sku=${{ env.IMAGE_SKU }}"
           target: ${{ env.PACKER_FILE }}
         env:
           PACKER_LOG: 1
