@@ -36,7 +36,7 @@ variable "image_sku" {
 }
 
 variables {
-   vm_size = "Standard_D2_v2"
+   vm_size = "Standard_D4_v4"
 }
 
 locals {
