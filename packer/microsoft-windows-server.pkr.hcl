@@ -25,7 +25,8 @@ variables {
    destination_resource_group_name = "dsr-images-rg"
    destination_image_gallery_name = "dsrimagegallery"
    vm_size = "Standard_D2_v2"
-   destination_image_gallery_region = "eastus"
+   location = "East US"
+   destination_image_gallery_region = "East US"
 }
 
 source "azure-arm" "microsoft-windows-server" {
@@ -40,6 +41,7 @@ source "azure-arm" "microsoft-windows-server" {
   image_offer                         = "${var.image_offer}"
   image_publisher                     = "${var.image_publisher}"
   image_sku                           = "${var.image_sku}"
+  location                            = "${var.location}"
   os_type                             = "Windows"
   shared_image_gallery_destination {
       subscription = "${var.azure_subscription_id}"
