@@ -48,9 +48,9 @@ jobs:
       IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
       IMAGE_VERSION: 1.0.0
       IMAGE_DESCRIPTION: "Windows Server 2016 Datacenter with VS Code"
-      IMAGE_PUBLISHER: MicrosoftWindowsServer
-      IMAGE_OFFER: WindowsServer
-      IMAGE_SKU: Datacenter-2016
+      IMAGE_PUBLISHER: "MicrosoftWindowsServer"
+      IMAGE_OFFER: "WindowsServer"
+      IMAGE_SKU: "2016-Datacenter"
       OS_TYPE: Windows
       SKU: vscode
       OFFER: free
