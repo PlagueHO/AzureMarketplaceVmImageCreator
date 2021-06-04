@@ -7,9 +7,6 @@ jobs:
   build-MicrosoftWindowsServer:
     runs-on: ubuntu-latest
     name: build-MicrosoftWindowsServer
-    env:
-      IMAGE_NAME: "MicrosoftWindowsServer2016DatacenterVsCode"
-      IMAGE_VERSION: "1.0.0"
 
     steps:
       - name: Checkout Repository
@@ -26,7 +23,13 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=$AZURE_SUBSCRIPTION_ID -var azure_tenant_id=$AZURE_TENANT_ID -var azure_client_id=$AZURE_CLIENT_ID -var azure_client_secret=$AZURE_CLIENT_SECRET -var image_name=MicrosoftWindowsServer2016DatacenterVsCode -var image_version=$IMAGE_VERSION"
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=$AZURE_SUBSCRIPTION_ID -var azure_tenant_id=$AZURE_TENANT_ID -var azure_client_id=$AZURE_CLIENT_ID -var azure_client_secret=$AZURE_CLIENT_SECRET -var image_name=$IMAGE_NAME -var image_version=$IMAGE_VERSION"
           target: packer/microsoft-windows-server.pkr.hcl
         env:
+          IMAGE_NAME: "MicrosoftWindowsServer2016DatacenterVsCode"
+          IMAGE_VERSION: "1.0.0"
+          AZURE_SUBSCRIPTION_ID: "{{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          AZURE_TENANT_ID: "{{ secrets.AZURE_TENANT_ID }}"
+          AZURE_CLIENT_ID: "{{ secrets.AZURE_CLIENT_ID }}"
+          AZURE_CLIENT_SECRET: "{{ secrets.AZURE_CLIENT_SECRET }}"
           PACKER_LOG: 1
