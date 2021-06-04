@@ -9,6 +9,8 @@ The images will be built in Azure and placed into an Azure Shared Image Gallery.
 
 ## Hashicorp Packer
 
+[![build-packer-images](https://github.com/DsrDemoOrg/AzureMarketplaceVmImageCreator/actions/workflows/build-packer-images.yml/badge.svg)](https://github.com/DsrDemoOrg/AzureMarketplaceVmImageCreator/actions/workflows/build-packer-images.yml)
+
 The GitHub Actions workflow [build-packer-images.yml](.github\worklows\build-packer-images.yml) will build one or more virtual machine images. A job exists for each image that needs to be built by the workflow.
 
 Before building the image the workflow will first create a [Shared Image Gallery](https://docs.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) if it does not already exist.
@@ -29,13 +31,13 @@ The workflows contains a number of variables at both the workflow and the job le
 - **DESTINATION_RESOURCE_GROUP_NAME**: The name of the resource group to put all the resources/images into.
 - **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
 - **PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
-- **IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version.
+- **IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version to ensure it is unique.
 - **AZURE***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
 
 ### Job
 
 - **PACKER_FILE**: The path to the packer file to use for building this image definition.
-- **IMAGE_NAME**: The image definition name. Must not contain spaces or symbols.
+- **IMAGE_NAME**: The image definition name to create. Must not contain spaces or symbols.
 - **IMAGE_DESCRIPTION**: The image definition description to create.
 - **IMAGE_PUBLISHER**: The publisher of the source image.
 - **IMAGE_OFFER**: The offer from the publisher of the source image.
@@ -50,6 +52,12 @@ The workflows contains a number of variables at both the workflow and the job le
 
 The Shared Image Gallery resource is created using some Bicep files that deploy a Resource Group and the Azure Image Gallery. The [main.bicep](bicep\main.bicep) file deploys the Resource Group and the [modules\imageGallery.bicep](bicep\modules\imageGallery.bicep).
 
+> Note: This could easily be created to Terraform if preferred.
+
 ### Image Definition
 
-The Image Definition resource is created using a bicep file [modules\imageDefinition.bicep](bicep\modules\imageDefinition.bicep).
+The Image Definition resource is created using a bicep file [modules\imageDefinition.bicep](bicep\modules\imageDefinition.bicep). This is checked every time an image definition is built
+because if it does not exist before `Build Image Definition` job runs it will fail because
+Packer requires that it does exist.
+
+> Note: This could easily be created to Terraform if preferred.
