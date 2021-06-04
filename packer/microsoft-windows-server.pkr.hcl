@@ -33,6 +33,10 @@ variables {
    vm_size = "Standard_D2_v2"
 }
 
+locals {
+  managed_image_name = "${concat(var.image_name, replace(var.image_version,'.','-'))}"
+}
+
 source "azure-arm" "microsoft-windows-server" {
   azure_tags = {
     dept = "Demonstration"
@@ -53,7 +57,7 @@ source "azure-arm" "microsoft-windows-server" {
       image_version = "${var.image_version}"
       replication_regions = [ "${var.location}" ]
   }
-  managed_image_name                  = "${var.image_name}"
+  managed_image_name                  = "${local.managed_image_name}"
   managed_image_resource_group_name   = "${var.destination_resource_group_name}"
   subscription_id                     = "${var.azure_subscription_id}"
   tenant_id                           = "${var.azure_tenant_id}"
