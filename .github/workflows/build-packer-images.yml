@@ -9,6 +9,7 @@ env:
   LOCATION: EastUS
   DESTINATION_RESOURCE_GROUP_NAME: dsr-images-rg
   DESTINATION_IMAGE_GALLERY_NAME: dsrimagegallery
+  PUBLISHER: "Daniel Scott-Raynsford"
 
 jobs:
   prepare-image-gallery:
@@ -42,6 +43,10 @@ jobs:
       PACKER_FILE: "packer/microsoft-windows-server.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
       IMAGE_VERSION: 1.0.0
+      IMAGE_DESCRIPTION: "Windows Server 2016 Datacenter with VS Code"
+      OS_TYPE: Windows
+      SKU: vscode
+      OFFER: free
       AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
       AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
       AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
@@ -58,11 +63,27 @@ jobs:
           arguments: "-syntax-only"
           target: ${{ env.PACKER_FILE }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Image Definition
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.24.2
+          inlineScript: |
+            az deployment group create \
+              --location $LOCATION \
+              --resource-group $DESTINATION_IMAGE_GALLERY_NAME \
+              --template-file bicep/modules/imageDefinition.bicep \
+              --parameters location=$LOCATION imageGalleryName=$DESTINATION_IMAGE_GALLERY_NAME imageDefinitionName=$IMAGE_NAME osType=$OS_TYPE imageDescription=$IMAGE_DESCRIPTION publisher=$PUBLISHER offer=$OFFER sku=$SKU
+
       - name: Build Artifact
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} "
+          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var DESTINATION_RESOURCE_GROUP_NAME=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var image_name=${{ env.IMAGE_NAME }} -var image_version=${{ env.IMAGE_VERSION }} "
           target: ${{ env.PACKER_FILE }}
         env:
           PACKER_LOG: 1
