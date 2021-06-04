@@ -15,6 +15,10 @@ Before building the image the workflow will first create a [Shared Image Gallery
 
 Once the Shared Image Gallery has been created, the workflow will create an [Image Definition](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-images-portal#create-an-image-definition) using Bicep if it does not already exist for each image that is being built by the workflow. This is because Packer will not automatically create the Image Definition if it does not exist.
 
+## Azure Image Builder
+
+This is not currently implemented but is planned.
+
 ## Workflow Variables
 
 The workflows contains a number of variables at both the workflow and the job level. The workflow level apply to all images that are build by the workflow. The job level variables only relate to the specific image being built. If there are more than one image being built by the workflow, then there will be multiple copies of the variables.

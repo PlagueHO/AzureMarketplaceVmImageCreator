@@ -34,7 +34,9 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            date=$(date +"%Y%m%d%H%M")
             az deployment sub create \
+              --name "imageGallery-${date}" \
               --location $LOCATION \
               --template-file bicep/main.bicep \
               --parameters location="$LOCATION" resourceGroupName="$DESTINATION_RESOURCE_GROUP_NAME" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME"
@@ -76,7 +78,9 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            date=$(date +"%Y%m%d%H%M")
             az deployment group create \
+              --name "${IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
               --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$IMAGE_NAME" osType="$OS_TYPE" imageDescription="$IMAGE_DESCRIPTION" publisher="$PUBLISHER" offer="$OFFER" sku="$SKU"
@@ -127,7 +131,9 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            date=$(date +"%Y%m%d%H%M")
             az deployment group create \
+              --name "${IMAGE_NAME}-${date}" \
               --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
               --template-file bicep/modules/imageDefinition.bicep \
               --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$IMAGE_NAME" osType="$OS_TYPE" imageDescription="$IMAGE_DESCRIPTION" publisher="$PUBLISHER" offer="$OFFER" sku="$SKU"
