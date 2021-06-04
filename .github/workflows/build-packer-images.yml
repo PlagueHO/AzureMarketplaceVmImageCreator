@@ -9,7 +9,7 @@ env:
   LOCATION: EastUS
   DESTINATION_RESOURCE_GROUP_NAME: dsr-images-rg
   DESTINATION_IMAGE_GALLERY_NAME: dsrimagegallery
-  PUBLISHER: "Daniel Scott-Raynsford"
+  PUBLISHER: "Daniel.Scott-Raynsford"
   AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
   AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
   AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
@@ -42,7 +42,7 @@ jobs:
   build-MicrosoftWindowsServer2016DatacenterVsCode:
     runs-on: ubuntu-latest
     needs: prepare-image-gallery
-    name: Build MicrosoftWindowsServer2016DatacenterVsCode
+    name: Build MicrosoftWindowsServer 2016-Datacenter with VS Code
     env:
       PACKER_FILE: "packer/microsoft-windows-server.pkr.hcl"
       IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode

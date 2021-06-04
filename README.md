@@ -24,7 +24,7 @@ The workflows contains a number of variables at both the workflow and the job le
 - **LOCATION**: The Azure Location to build the images in and to deploy the shared image gallery resource.
 - **DESTINATION_RESOURCE_GROUP_NAME**: The name of the resource group to put all the resources/images into.
 - **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
-- **PUBLISHER**: The name of the publisher that will be used for all image definitions.
+- **PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
 - **AZURE***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
 
 ### Job
