@@ -1,4 +1,4 @@
-name: build-images
+name: build-packer-images
 
 on:
   push:
@@ -10,6 +10,10 @@ env:
   DESTINATION_RESOURCE_GROUP_NAME: dsr-images-rg
   DESTINATION_IMAGE_GALLERY_NAME: dsrimagegallery
   PUBLISHER: "Daniel Scott-Raynsford"
+  AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
+  AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
+  AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
+  AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
 
 jobs:
   prepare-image-gallery:
@@ -47,10 +51,6 @@ jobs:
       OS_TYPE: Windows
       SKU: vscode
       OFFER: free
-      AZURE_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
-      AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-      AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
-      AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
 
     steps:
       - name: Checkout Repository

@@ -15,6 +15,28 @@ Before building the image the workflow will first create a [Shared Image Gallery
 
 Once the Shared Image Gallery has been created, the workflow will create an [Image Definition](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-images-portal#create-an-image-definition) using Bicep if it does not already exist for each image that is being built by the workflow. This is because Packer will not automatically create the Image Definition if it does not exist.
 
+## Workflow Variables
+
+The workflows contains a number of variables at both the workflow and the job level. The workflow level apply to all images that are build by the workflow. The job level variables only relate to the specific image being built. If there are more than one image being built by the workflow, then there will be multiple copies of the variables.
+
+### Workflow
+
+- **LOCATION**: The Azure Location to build the images in and to deploy the shared image gallery resource.
+- **DESTINATION_RESOURCE_GROUP_NAME**: The name of the resource group to put all the resources/images into.
+- **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
+- **PUBLISHER**: The name of the publisher that will be used for all image definitions.
+- **AZURE***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
+
+### Job
+
+- **PACKER_FILE**: The path to the packer file to use for building this image.
+- **IMAGE_NAME**: The image name. Must not contain spaces or symbols.
+- **IMAGE_VERSION**: The image definition version.
+- **IMAGE_DESCRIPTION**: The image definition description.
+- **OS_TYPE**: The OS of the image definition. Windows or Linux.
+- **SKU**: The sku for the image definition.
+- **OFFER**: The offer for the image definition.
+
 ## Dependencies
 
 ### Shared Image Gallery
