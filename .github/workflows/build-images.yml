@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Image Gallery Template
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.14.2
+          azcliversion: 2.24.2
           inlineScript: |
             az deployment sub create \
               --location $LOCATION \
