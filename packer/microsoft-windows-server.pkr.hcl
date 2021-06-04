@@ -28,7 +28,7 @@ variables {
    destination_image_gallery_region = "eastus"
 }
 
-source "azure-arm" "microsoft-window-server" {
+source "azure-arm" "microsoft-windows-server" {
   azure_tags = {
     dept = "Engineering"
     task = "Image deployment"
@@ -61,7 +61,7 @@ source "azure-arm" "microsoft-window-server" {
 }
 
 build {
-  sources = ["source.azure-arm.microsoft-window-server"]
+  sources = ["source.azure-arm.microsoft-windows-server"]
 
   provisioner "powershell" {
     inline = [
