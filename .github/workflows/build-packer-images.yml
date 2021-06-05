@@ -33,6 +33,7 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            az account show
             date=$(date +"%Y%m%d%H%M")
             az deployment sub create \
               --name "imageGallery-${date}" \
@@ -76,6 +77,7 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            az account show
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
@@ -128,6 +130,7 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            az account show
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
@@ -180,6 +183,7 @@ jobs:
         with:
           azcliversion: 2.24.2
           inlineScript: |
+            az account show
             date=$(date +"%Y%m%d%H%M")
             az deployment group create \
               --name "${DESTINATION_IMAGE_NAME}-${date}" \
