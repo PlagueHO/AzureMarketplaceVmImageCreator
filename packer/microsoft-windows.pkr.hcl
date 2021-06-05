@@ -1,6 +1,15 @@
 variable "azure_subscription_id" {
   type = string
 }
+variable "azure_tenant_id" {
+  type = string
+}
+variable "azure_client_id" {
+  type = string
+}
+variable "azure_client_secret" {
+  type = string
+}
 variable "location" {
   type = string
 }
@@ -39,6 +48,8 @@ source "azure-arm" "microsoft-windows" {
     dept = "Demonstration"
   }
   communicator                        = "winrm"
+  client_id                           = "${var.azure_client_id}"
+  client_secret                       = "${var.azure_client_secret}"
   image_offer                         = "${var.source_image_offer}"
   image_publisher                     = "${var.source_image_publisher}"
   image_sku                           = "${var.source_image_sku}"
@@ -54,7 +65,8 @@ source "azure-arm" "microsoft-windows" {
   }
   managed_image_name                  = "${local.managed_image_name}"
   managed_image_resource_group_name   = "${var.destination_resource_group_name}"
-  use_azure_cli_auth                  = "true"
+  subscription_id                     = "${var.azure_subscription_id}"
+  tenant_id                           = "${var.azure_tenant_id}"
   vm_size                             = "${var.vm_size}"
   winrm_insecure                      = true
   winrm_timeout                       = "5m"
