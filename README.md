@@ -34,7 +34,7 @@ The workflows contains a number of variables at both the workflow and the job le
 - **DESTINATION_IMAGE_GALLERY_NAME**: The name of the shared image gallery.
 - **DESTINATION_PUBLISHER**: The name of the publisher that will be used for all image definitions. Allowed characters are uppercase or lowercase letters, digits, hyphen(-), period (.), underscore (_). Names are not allowed to end with period(.). The length of the name cannot exceed 128 characters.
 - **DESTINATION_IMAGE_VERSION**: The image definition version to use for all images created by the workflow. The run number is appended onto the end of the version to ensure it is unique.
-- **AZURE_***: These variables should not be changed and pull the azure service principal information from the credential secret for use by packer.
+- **AZURE_***: These variables should not be changed and pull the azure service principal information from the Azure credential secret for use by packer.
 
 ### Job
 

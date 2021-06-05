@@ -83,14 +83,27 @@ build {
       "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
       "choco install vscode -y",
 
-      "# NOTE: the following *3* lines are only needed if the you have installed the Guest Agent.",
-      "while ((Get-Service RdAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
-      "while ((Get-Service WindowsAzureTelemetryService).Status -ne 'Running') { Start-Sleep -s 5 }",
-      "while ((Get-Service WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
+      "# Wait for the Azure Guest Agent to start",
+      "Write-Output '>>> Waiting for GA Service (RdAgent) to start ...'",
+      "while ((Get-Service -Name RdAgent).Status -ne 'Running') { Start-Sleep -Seconds 5 }",
+      "Write-Output '>>> Waiting for GA Service (WindowsAzureTelemetryService) to start ...'",
+      "while ((Get-Service -Name WindowsAzureTelemetryService) -and ((Get-Service -Name WindowsAzureTelemetryService).Status -ne 'Running')) { Start-Sleep -Seconds 5 }",
+      "Write-Output '>>> Waiting for GA Service (WindowsAzureGuestAgent) to start ...'",
+      "while ((Get-Service -Name WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -Seconds 5 }",
 
       "# Generalize the OS",
-      "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit /mode:vm",
-      "while($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }"
+      "Write-Output '>>> Sysprepping VM ...'",
+      "if (Test-Path -Path $Env:SystemRoot\system32\Sysprep\unattend.xml ) {",
+      "  Remove-Item -Path $Env:SystemRoot\system32\Sysprep\unattend.xml -Force",
+      "}",
+      "& $Env:SystemRoot\System32\Sysprep\Sysprep.exe /oobe /generalize /quiet /quit",
+      "while($true) {",
+      "  $imageState = (Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\State).ImageState",
+      "Write-Output $imageState",
+      "if ($imageState -eq 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { break }",
+      "  Start-Sleep -Seconds 5",
+      "}",
+      "Write-Output '>>> Sysprep complete ...'"
     ]
   }
 }
