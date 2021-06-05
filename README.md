@@ -17,6 +17,8 @@ Before building the image the workflow will first create a [Shared Image Gallery
 
 Once the Shared Image Gallery has been created, the workflow will create an [Image Definition](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-images-portal#create-an-image-definition) using Bicep if it does not already exist for each image that is being built by the workflow. This is because Packer will not automatically create the Image Definition if it does not exist.
 
+> Note: The Packer actions will actually use the Azure connection that is set up by the AZ CLI actions (`azure/login@v1`) that execute to configure the dependent resources. This eliminates the need to pass in service principal details to the Packer commands.
+
 ## Azure Image Builder
 
 This is not currently implemented but is planned.
