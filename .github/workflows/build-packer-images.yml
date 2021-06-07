@@ -46,47 +46,46 @@ jobs:
 
   build-image:
     runs-on: ubuntu-latest
+    name: Build Images
     needs: prepare-image-gallery
     strategy:
       # Limit parallel builds so don't use all Azure core quota
       max-parallel: 3
       matrix:
-        image_id: [2016-Datacenter,2019-Datacenter,20h1-ent]
+        image_id: [Windows-Server-2016,Windows-Server-2019,Windows-10-Enterprise]
         include:
-        - image_id: 2016-Datacenter
-          packer_file: "packer/microsoft-windows.pkr.hcl"
-          destination_image_name: MicrosoftWindowsServer2016DatacenterVsCode
-          destination_image_description: "Windows Server 2016 Datacenter with VS Code"
-          source_image_publisher: "MicrosoftWindowsServer"
-          source_image_offer: "WindowsServer"
-          source_image_sku: 2016-Datacenter
-          destination_os_type: Windows
-          destination_offer: "WindowsServerVsCode"
-          destination_sku: "2016-Datacenter"
+          - image_id: Windows-Server-2016
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsServer2016DatacenterVsCode
+            destination_image_description: Windows Server 2016 Datacenter with VS Code
+            source_image_publisher: MicrosoftWindowsServer
+            source_image_offer: WindowsServer
+            source_image_sku: 2016-Datacenter
+            destination_os_type: Windows
+            destination_offer: WindowsServerVsCode
+            destination_sku: 2016-Datacenter
 
-        - image_id: 2019-Datacenter
-          packer_file: "packer/microsoft-windows.pkr.hcl"
-          destination_image_name: MicrosoftWindowsServer2019DatacenterVsCode
-          destination_image_description: "Windows Server 2019 Datacenter with VS Code"
-          source_image_publisher: "MicrosoftWindowsServer"
-          source_image_offer: "WindowsServer"
-          source_image_sku: 2019-Datacenter
-          destination_os_type: Windows
-          destination_offer: "WindowsServerVsCode"
-          destination_sku: "2019-Datacenter"
+          - image_id: Windows-Server-2019
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsServer2019DatacenterVsCode
+            destination_image_description: Windows Server 2019 Datacenter with VS Code
+            source_image_publisher: MicrosoftWindowsServer
+            source_image_offer: WindowsServer
+            source_image_sku: 2019-Datacenter
+            destination_os_type: Windows
+            destination_offer: WindowsServerVsCode
+            destination_sku: 2019-Datacenter
 
-        - image_id: 2016-Datacenter
-          packer_file: "packer/microsoft-windows.pkr.hcl"
-          destination_image_name: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
-          destination_image_description: "Windows 10 20h1-ent with VS Code"
-          source_image_publisher: "MicrosoftWindowsDesktop"
-          source_image_offer: "Windows-10"
-          source_image_sku: 20h1-ent
-          destination_os_type: Windows
-          destination_offer: "Windows10VsCode"
-          destination_sku: "20h1-ent"
-
-    name: Build Image
+          - image_id: Windows-10-Enterprise
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
+            destination_image_description: Windows 10 20h1-ent with VS Code
+            source_image_publisher: MicrosoftWindowsDesktop
+            source_image_offer: Windows-10
+            source_image_sku: 20h1-ent
+            destination_os_type: Windows
+            destination_offer: Windows10VsCode
+            destination_sku: 20h1-ent
     env:
       PACKER_FILE: ${{ matrix.packer_file }}
       DESTINATION_IMAGE_NAME: ${{ matrix.destination_image_name }}
