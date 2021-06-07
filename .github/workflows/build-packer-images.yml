@@ -43,126 +43,58 @@ jobs:
               --template-file bicep/main.bicep \
               --parameters location="$LOCATION" resourceGroupName="$DESTINATION_RESOURCE_GROUP_NAME" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME"
 
-  build-MicrosoftWindowsServer2016DatacenterVsCode:
+  build-image:
     runs-on: ubuntu-latest
+    name: Build Image
     needs: prepare-image-gallery
-    name: Build Microsoft Windows Server 2016-Datacenter with VS Code
+    strategy:
+      # Limit parallel builds so don't use all Azure core quota
+      max-parallel: 3
+      matrix:
+        image_id: [Windows-Server-2016,Windows-Server-2019,Windows-10-Enterprise]
+        include:
+          - image_id: Windows-Server-2016
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsServer2016DatacenterVsCode
+            destination_image_description: Windows Server 2016 Datacenter with VS Code
+            source_image_publisher: MicrosoftWindowsServer
+            source_image_offer: WindowsServer
+            source_image_sku: 2016-Datacenter
+            destination_os_type: Windows
+            destination_offer: WindowsServerVsCode
+            destination_sku: 2016-Datacenter
+
+          - image_id: Windows-Server-2019
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsServer2019DatacenterVsCode
+            destination_image_description: Windows Server 2019 Datacenter with VS Code
+            source_image_publisher: MicrosoftWindowsServer
+            source_image_offer: WindowsServer
+            source_image_sku: 2019-Datacenter
+            destination_os_type: Windows
+            destination_offer: WindowsServerVsCode
+            destination_sku: 2019-Datacenter
+
+          - image_id: Windows-10-Enterprise
+            packer_file: "packer/microsoft-windows.pkr.hcl"
+            destination_image_name: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
+            destination_image_description: Windows 10 20h1-ent with VS Code
+            source_image_publisher: MicrosoftWindowsDesktop
+            source_image_offer: Windows-10
+            source_image_sku: 20h1-ent
+            destination_os_type: Windows
+            destination_offer: Windows10VsCode
+            destination_sku: 20h1-ent
     env:
-      PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      DESTINATION_IMAGE_NAME: MicrosoftWindowsServer2016DatacenterVsCode
-      DESTINATION_IMAGE_DESCRIPTION: "Windows Server 2016 Datacenter with VS Code"
-      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
-      SOURCE_IMAGE_OFFER: "WindowsServer"
-      SOURCE_IMAGE_SKU: "2016-Datacenter"
-      DESTINATION_OS_TYPE: Windows
-      DESTINATION_OFFER: "WindowsServerVsCode"
-      DESTINATION_SKU: "2016-Datacenter"
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Validate Template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: "-syntax-only"
-          target: ${{ env.PACKER_FILE }}
-
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy Image Definition
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.24.2
-          inlineScript: |
-            az account show
-            date=$(date +"%Y%m%d%H%M")
-            az deployment group create \
-              --name "${DESTINATION_IMAGE_NAME}-${date}" \
-              --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
-              --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$DESTINATION_OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$DESTINATION_OFFER" sku="$DESTINATION_SKU"
-
-      - name: Build Image Definition
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var destination_image_name=${{ env.DESTINATION_IMAGE_NAME }} -var destination_image_version=${{ env.DESTINATION_IMAGE_VERSION }} -var source_image_publisher=${{ env.SOURCE_IMAGE_PUBLISHER }} -var source_image_offer=${{ env.SOURCE_IMAGE_OFFER }} -var source_image_sku=${{ env.SOURCE_IMAGE_SKU }}"
-          target: ${{ env.PACKER_FILE }}
-        env:
-          PACKER_LOG: 1
-
-  build-MicrosoftWindowsServer2019DatacenterVsCode:
-    runs-on: ubuntu-latest
-    needs: prepare-image-gallery
-    name: Build Microsoft Windows Server 2019-Datacenter with VS Code
-    env:
-      PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      DESTINATION_IMAGE_NAME: MicrosoftWindowsServer2019DatacenterVsCode
-      DESTINATION_IMAGE_DESCRIPTION: "Windows Server 2019 Datacenter with VS Code"
-      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsServer"
-      SOURCE_IMAGE_OFFER: "WindowsServer"
-      SOURCE_IMAGE_SKU: "2019-Datacenter"
-      DESTINATION_OS_TYPE: Windows
-      DESTINATION_OFFER: "WindowsServerVsCode"
-      DESTINATION_SKU: "2019-Datacenter"
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Validate Template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: "-syntax-only"
-          target: ${{ env.PACKER_FILE }}
-
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy Image Definition
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.24.2
-          inlineScript: |
-            az account show
-            date=$(date +"%Y%m%d%H%M")
-            az deployment group create \
-              --name "${DESTINATION_IMAGE_NAME}-${date}" \
-              --resource-group $DESTINATION_RESOURCE_GROUP_NAME \
-              --template-file bicep/modules/imageDefinition.bicep \
-              --parameters location="$LOCATION" imageGalleryName="$DESTINATION_IMAGE_GALLERY_NAME" imageDefinitionName="$DESTINATION_IMAGE_NAME" osType="$DESTINATION_OS_TYPE" imageDescription="$DESTINATION_IMAGE_DESCRIPTION" publisher="$DESTINATION_PUBLISHER" offer="$DESTINATION_OFFER" sku="$DESTINATION_SKU"
-
-      - name: Build Image Definition
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: build
-          arguments: "-color=false -on-error=abort -var azure_subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }} -var azure_tenant_id=${{ env.AZURE_TENANT_ID }} -var azure_client_id=${{ env.AZURE_CLIENT_ID }} -var azure_client_secret=${{ env.AZURE_CLIENT_SECRET }} -var location=${{ env.LOCATION }} -var destination_resource_group_name=${{ env.DESTINATION_RESOURCE_GROUP_NAME }} -var destination_image_gallery_name=${{ env.DESTINATION_IMAGE_GALLERY_NAME }} -var destination_image_name=${{ env.DESTINATION_IMAGE_NAME }} -var destination_image_version=${{ env.DESTINATION_IMAGE_VERSION }} -var source_image_publisher=${{ env.SOURCE_IMAGE_PUBLISHER }} -var source_image_offer=${{ env.SOURCE_IMAGE_OFFER }} -var source_image_sku=${{ env.SOURCE_IMAGE_SKU }}"
-          target: ${{ env.PACKER_FILE }}
-        env:
-          PACKER_LOG: 1
-
-  build-MicrosoftWindows1020h1entVsCode:
-    runs-on: ubuntu-latest
-    needs: prepare-image-gallery
-    name: Build Microsoft Windows 10 20h1-ent with VS Code
-    env:
-      PACKER_FILE: "packer/microsoft-windows.pkr.hcl"
-      DESTINATION_IMAGE_NAME: MicrosoftWindowsDesktop1020h1entDatacenterVsCode
-      DESTINATION_IMAGE_DESCRIPTION: "Windows 10 20h1-ent with VS Code"
-      SOURCE_IMAGE_PUBLISHER: "MicrosoftWindowsDesktop"
-      SOURCE_IMAGE_OFFER: "Windows-10"
-      SOURCE_IMAGE_SKU: "20h1-ent"
-      DESTINATION_OS_TYPE: Windows
-      DESTINATION_OFFER: "Windows10VsCode"
-      DESTINATION_SKU: "20h1-ent"
+      PACKER_FILE: ${{ matrix.packer_file }}
+      DESTINATION_IMAGE_NAME: ${{ matrix.destination_image_name }}
+      DESTINATION_IMAGE_DESCRIPTION: ${{ matrix.destination_image_description }}
+      SOURCE_IMAGE_PUBLISHER: ${{ matrix.source_image_publisher }}
+      SOURCE_IMAGE_OFFER: ${{ matrix.source_image_offer }}
+      SOURCE_IMAGE_SKU: ${{ matrix.source_image_sku }}
+      DESTINATION_OS_TYPE: ${{ matrix.destination_os_type }}
+      DESTINATION_OFFER: ${{ matrix.destination_offer }}
+      DESTINATION_SKU: ${{ matrix.destination_sku }}
 
     steps:
       - name: Checkout Repository

@@ -23,9 +23,14 @@ Once the Shared Image Gallery has been created, the workflow will create an [Ima
 
 This is not currently implemented but is planned.
 
+## Workflow Matrix
+
+The workflow uses a matrix strategy for the `build-image` stage to build multiple images in parallel with different
+configuration options. There are multiple matrix variables defined for each entry that are assigned to the job level environment variables.
+
 ## Workflow Variables
 
-The workflows contains a number of variables at both the workflow and the job level. The workflow level apply to all images that are build by the workflow. The job level variables only relate to the specific image being built. If there are more than one image being built by the workflow, then there will be multiple copies of the variables.
+The workflows contains a number of variables at workflow level. The workflow level applies to all images that are built by the workflow. The job level variables only relate to the specific image being built by the matrix.
 
 ### Workflow
 
